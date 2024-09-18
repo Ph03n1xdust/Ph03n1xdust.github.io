@@ -1,6 +1,9 @@
 main();
 
 function main() {
+  const vertex_code = fetch("vertex.glsl").then((resp) => resp.text());
+  document.getElementById("demo").innerHTML = vertex_code;
+
   const canvas = document.querySelector("#glcanvas");
   const gl = canvas.getContext("webgl");
 
