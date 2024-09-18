@@ -1,7 +1,12 @@
 main();
 
 function main() {
-  const vertex_code = fetch("vertex.glsl").then((resp) => resp.text());
+  const vertex_code = "";
+  fetch("vertex.glsl")
+    .then((resp) => resp.text())
+    .then((text) => {
+      vertex_code = text;
+    });
   document.getElementById("demo").innerHTML = vertex_code;
 
   const canvas = document.querySelector("#glcanvas");
