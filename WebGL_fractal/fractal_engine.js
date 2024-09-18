@@ -1,7 +1,7 @@
 main();
 
 function main() {
-  const vertex_code = "";
+  var vertex_code = "";
   fetch("vertex.glsl")
     .then((resp) => resp.text())
     .then((text) => {
