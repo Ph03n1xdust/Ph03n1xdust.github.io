@@ -1,3 +1,5 @@
+precision highp float;
+
 void main()
 {
     float x = (gl_FragCoord.x/640.0-0.5)*4.0;
