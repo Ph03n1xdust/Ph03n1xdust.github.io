@@ -22,7 +22,11 @@ async function getCompiledShaders(gl) {
     !gl.getShaderParameter(vertex_shader, gl.COMPILE_STATUS) ||
     !gl.getShaderParameter(fragment_shader, gl.COMPILE_STATUS)
   ) {
-    alert("An error occured with shader compilation!");
+    alert(
+      `An error occured with shader compilation! ${gl.getShaderInfoLog(
+        vertex_shader
+      )} ${gl.getShaderInfoLog(fragment_shader)}`
+    );
     return null;
   }
 
