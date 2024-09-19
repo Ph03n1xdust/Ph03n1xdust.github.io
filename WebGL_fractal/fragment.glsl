@@ -18,9 +18,10 @@ void main()
 
     vec2 currval = vec2(x,y);
     
-    int i = 0;
-    for(i=0; i<256; i++)
+    float iter = 0.0;
+    for(int i=0; i<256; i++)
     {
+        iter = float(i);
         if(length(currval)>thresh)
         {
             break;
@@ -29,5 +30,5 @@ void main()
         currval = complex_mult(currval, currval)+c;
     }
 
-    gl_FragColor = vec4(float(i)/256.0, float(i)/256.0, float(i)/256.0, 1.0);
+    gl_FragColor = vec4(iter/256.0, iter/256.0, iter/256.0, 1.0);
 }
