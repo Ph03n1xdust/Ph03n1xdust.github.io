@@ -148,7 +148,7 @@ async function main() {
 
   const buffers = initBuffers(gl);
 
-  var slider = document.getElementById("myRange");
+  var slider = document.getElementById("maxval");
 
   slider.oninput = function () {
     drawScene(gl, program_info, buffers, this.value / 10);
