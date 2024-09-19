@@ -86,10 +86,10 @@ function drawScene(gl, program_info, buffers) {
   // Tell WebGL how to pull out the positions from the position
   // buffer into the vertexPosition attribute.
   setPositionAttribute(gl, buffers, program_info);
-  gl.uniform1f(program_info.uniform_locations.maxval, 2.0);
 
   // Tell WebGL to use our program when drawing
   gl.useProgram(program_info.program);
+  gl.uniform1f(program_info.uniform_locations.maxval, 2.0);
 
   {
     const offset = 0;
