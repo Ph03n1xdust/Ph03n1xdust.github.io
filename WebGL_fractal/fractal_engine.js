@@ -153,4 +153,5 @@ async function main() {
   slider.oninput = function () {
     drawScene(gl, program_info, buffers, this.value / 10);
   };
+  drawScene(gl, program_info, buffers, slider.value / 10);
 }
