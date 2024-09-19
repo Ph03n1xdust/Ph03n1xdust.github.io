@@ -29,5 +29,5 @@ void main()
         currval = complex_mult(currval, currval)+c;
     }
 
-    gl_FragColor = vec4(i/256.0, i/256.0, i/256.0, 1.0);
+    gl_FragColor = vec4(float(i)/256.0, float(i)/256.0, float(i)/256.0, 1.0);
 }
