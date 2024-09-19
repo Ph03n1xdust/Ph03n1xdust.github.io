@@ -73,7 +73,7 @@ function initPositionBuffer(gl) {
   return position_buffer;
 }
 
-function drawScene(gl, program_info, buffers) {
+function drawScene(gl, program_info, buffers, maxval) {
   gl.clearColor(0.0, 0.0, 0.0, 1.0); // Clear to black, fully opaque
   gl.clearDepth(1.0); // Clear everything
   gl.enable(gl.DEPTH_TEST); // Enable depth testing
@@ -89,7 +89,7 @@ function drawScene(gl, program_info, buffers) {
 
   // Tell WebGL to use our program when drawing
   gl.useProgram(program_info.program);
-  gl.uniform1f(program_info.uniform_locations.maxval, 1.5);
+  gl.uniform1f(program_info.uniform_locations.maxval, maxval);
 
   {
     const offset = 0;
@@ -148,6 +148,9 @@ async function main() {
 
   const buffers = initBuffers(gl);
 
-  // Draw the scene
-  drawScene(gl, program_info, buffers);
+  var slider = document.getElementById("myRange");
+
+  slider.oninput = function () {
+    drawScene(gl, program_info, buffers, this.value / 10);
+  };
 }
