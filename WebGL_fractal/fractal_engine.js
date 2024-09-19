@@ -89,7 +89,7 @@ function drawScene(gl, program_info, buffers) {
 
   // Tell WebGL to use our program when drawing
   gl.useProgram(program_info.program);
-  gl.uniform1f(program_info.uniform_locations.maxval, 2.0);
+  gl.uniform1f(program_info.uniform_locations.maxval, 1.5);
 
   {
     const offset = 0;
