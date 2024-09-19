@@ -33,9 +33,6 @@ function main() {
   const canvas = document.querySelector("#glcanvas");
   const gl = canvas.getContext("webgl");
 
-  var vertex_shader, fragment_shader;
-  [vertex_shader, fragment_shader] = getCompiledShaders(gl);
-
   // Only continue if WebGL is available and working
   if (gl === null) {
     alert(
@@ -43,6 +40,9 @@ function main() {
     );
     return;
   }
+
+  var vertex_shader, fragment_shader;
+  [vertex_shader, fragment_shader] = getCompiledShaders(gl);
 
   // Set clear color to black, fully opaque
   gl.clearColor(0.0, 0.0, 0.0, 1.0);
