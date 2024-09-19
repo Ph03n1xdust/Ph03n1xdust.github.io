@@ -29,7 +29,7 @@ async function getCompiledShaders(gl) {
   return [vertex_shader, fragment_shader];
 }
 
-function main() {
+async function main() {
   const canvas = document.querySelector("#glcanvas");
   const gl = canvas.getContext("webgl");
 
@@ -42,7 +42,7 @@ function main() {
   }
 
   var vertex_shader, fragment_shader;
-  [vertex_shader, fragment_shader] = getCompiledShaders(gl);
+  [vertex_shader, fragment_shader] = await getCompiledShaders(gl);
 
   // Set clear color to black, fully opaque
   gl.clearColor(0.0, 0.0, 0.0, 1.0);
