@@ -1,4 +1,4 @@
-main();
+await main();
 
 //This should be one generic loader
 async function getCompiledShaders(gl) {
