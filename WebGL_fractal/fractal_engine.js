@@ -86,6 +86,7 @@ function drawScene(gl, program_info, buffers) {
   // Tell WebGL how to pull out the positions from the position
   // buffer into the vertexPosition attribute.
   setPositionAttribute(gl, buffers, program_info);
+  gl.unifrom1f(program_info.uniform_locations.maxval, 2.0);
 
   // Tell WebGL to use our program when drawing
   gl.useProgram(program_info.program);
@@ -135,15 +136,18 @@ async function main() {
 
   var shader_program = initShaderProgram(gl, vertex_shader, fragment_shader);
 
-  const programInfo = {
+  const program_info = {
     program: shader_program,
     attrib_locations: {
       vertexPosition: gl.getAttribLocation(shader_program, "aVertexPosition"),
+    },
+    uniform_locations: {
+      maxval: gl.getUniformLocation(shader_program, "maxval"),
     },
   };
 
   const buffers = initBuffers(gl);
 
   // Draw the scene
-  drawScene(gl, programInfo, buffers);
+  drawScene(gl, program_info, buffers);
 }

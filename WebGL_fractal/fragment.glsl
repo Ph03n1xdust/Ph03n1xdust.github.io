@@ -1,5 +1,7 @@
 precision highp float;
 
+uniform float maxval;
+
 //From https://www.shadertoy.com/view/XtGGzG
 float saturate( float x ) { return clamp( x, 0.0, 1.0 ); }
 vec3 viridis_quintic( float x )
@@ -26,8 +28,8 @@ void main()
 
     vec2 c = vec2(c_real, c_im);
 
-    float x = (gl_FragCoord.x/640.0-0.5)*4.0;
-    float y = (gl_FragCoord.y/480.0-0.5)*4.0;
+    float x = (gl_FragCoord.x/640.0-0.5)*maxval*2.0;
+    float y = (gl_FragCoord.y/480.0-0.5)*maxval*2.0;
 
     vec2 currval = vec2(x,y);
     
