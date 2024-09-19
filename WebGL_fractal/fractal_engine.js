@@ -84,7 +84,7 @@ function drawScene(gl, program_info, buffers) {
   setPositionAttribute(gl, buffers, program_info);
 
   // Tell WebGL to use our program when drawing
-  gl.useProgram(prograprogram_infomInfo.program);
+  gl.useProgram(program_info.program);
 
   {
     const offset = 0;
