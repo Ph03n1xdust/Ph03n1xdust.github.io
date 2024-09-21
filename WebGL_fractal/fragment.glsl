@@ -1,6 +1,8 @@
 precision highp float;
 
 uniform float maxval;
+uniform float canvas_w;
+uniform float canvas_h;
 
 //From https://www.shadertoy.com/view/XtGGzG
 float saturate( float x ) { return clamp( x, 0.0, 1.0 ); }
@@ -28,8 +30,8 @@ void main()
 
     vec2 c = vec2(c_real, c_im);
 
-    float x = (gl_FragCoord.x/640.0-0.5)*maxval*2.0;
-    float y = (gl_FragCoord.y/480.0-0.5)*maxval*2.0;
+    float x = (gl_FragCoord.x/canvas_w-0.5)*maxval*2.0;
+    float y = (gl_FragCoord.y/canvas_h-0.5)*maxval*2.0;
 
     vec2 currval = vec2(x,y);
     

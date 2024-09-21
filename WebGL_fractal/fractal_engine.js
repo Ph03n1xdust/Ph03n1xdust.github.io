@@ -73,7 +73,7 @@ function initPositionBuffer(gl) {
   return position_buffer;
 }
 
-function drawScene(gl, program_info, buffers, maxval) {
+function drawScene(gl, program_info, buffers) {
   gl.clearColor(0.0, 0.0, 0.0, 1.0); // Clear to black, fully opaque
   gl.clearDepth(1.0); // Clear everything
   gl.enable(gl.DEPTH_TEST); // Enable depth testing
@@ -89,7 +89,17 @@ function drawScene(gl, program_info, buffers, maxval) {
 
   // Tell WebGL to use our program when drawing
   gl.useProgram(program_info.program);
-  gl.uniform1f(program_info.uniform_locations.maxval, maxval);
+
+  //TODO: DO NOT FIND THESE ELEMENTS ALL THE TIME AGAIN, FIND THEM IN MAIN AND SAVE
+  var maxval_slider = document.getElementById("maxval");
+  gl.uniform1f(
+    program_info.uniform_locations.maxval,
+    maxval_slider.value / 10.0
+  );
+  var w_slider = document.getElementById("canvas_w");
+  gl.uniform1f(program_info.uniform_locations.canvas_w, w_slider.value * 1.0);
+  var h_slider = document.getElementById("canvas_h");
+  gl.uniform1f(program_info.uniform_locations.canvas_h, h_slider.value * 1.0);
 
   {
     const offset = 0;
@@ -143,15 +153,31 @@ async function main() {
     },
     uniform_locations: {
       maxval: gl.getUniformLocation(shader_program, "maxval"),
+      canvas_w: gl.getUniformLocation(shader_program, "canvas_w"),
+      canvas_h: gl.getUniformLocation(shader_program, "canvas_h"),
     },
   };
 
   const buffers = initBuffers(gl);
 
   var slider = document.getElementById("maxval");
-
   slider.oninput = function () {
-    drawScene(gl, program_info, buffers, this.value / 10);
+    drawScene(gl, program_info, buffers);
   };
-  drawScene(gl, program_info, buffers, slider.value / 10);
+
+  var w_slider = document.getElementById("canvas_w");
+  w_slider.oninput = function () {
+    canvas.width = w_slider.value;
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    drawScene(gl, program_info, buffers);
+  };
+
+  var h_slider = document.getElementById("canvas_h");
+  h_slider.oninput = function () {
+    canvas.height = h_slider.value;
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    drawScene(gl, program_info, buffers);
+  };
+
+  drawScene(gl, program_info, buffers);
 }
