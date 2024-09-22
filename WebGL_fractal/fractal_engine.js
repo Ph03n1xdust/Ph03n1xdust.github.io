@@ -133,8 +133,8 @@ function resize_handler() {
 
 function wheel_handler(wheelevent) {
   real_size *= 1 + wheelevent.deltaY / 1000.0;
-  if (real_size < 0.0001) {
-    real_size = 0.0001;
+  if (real_size < 0.000001) {
+    real_size = 0.000001;
   }
 
   if (real_size > 3.0) {
