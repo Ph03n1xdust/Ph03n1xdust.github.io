@@ -131,7 +131,14 @@ function resize_handler() {
 }
 
 function wheel_handler(wheelevent) {
-  real_size += wheelevent.deltaY;
+  real_size += wheelevent.deltaY / 100.0;
+  if (real_size < 0.1) {
+    real_size = 0.1;
+  }
+
+  if (real_size > 3.0) {
+    real_size = 3.0;
+  }
   gl.uniform1f(program_info.uniform_locations.real_size, real_size * 1.0);
 
   drawScene();
@@ -177,5 +184,9 @@ async function main() {
   // buffer into the vertexPosition attribute.
   setPositionAttribute(gl, buffers, program_info);
 
+  //Set defaults
+  gl.uniform1f(program_info.uniform_locations.canvas_w, w_slider.value * 1.0);
+  gl.uniform1f(program_info.uniform_locations.canvas_h, h_slider.value * 1.0);
+  gl.uniform1f(program_info.uniform_locations.real_size, real_size * 1.0);
   drawScene();
 }
