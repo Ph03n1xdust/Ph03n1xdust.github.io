@@ -192,8 +192,8 @@ async function main() {
       real_size: gl.getUniformLocation(shader_program, "real_size"),
       canvas_w: gl.getUniformLocation(shader_program, "canvas_w"),
       canvas_h: gl.getUniformLocation(shader_program, "canvas_h"),
-      canvas_w: gl.getUniformLocation(shader_program, "offset_x"),
-      canvas_h: gl.getUniformLocation(shader_program, "offset_y"),
+      offset_x: gl.getUniformLocation(shader_program, "offset_x"),
+      offset_y: gl.getUniformLocation(shader_program, "offset_y"),
     },
   };
 
