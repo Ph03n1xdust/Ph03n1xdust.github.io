@@ -125,8 +125,8 @@ function resize_handler() {
 
   gl.viewport(0, 0, canvas.width, canvas.height);
 
-  gl.uniform1f(program_info.uniform_locations.canvas_w, w_slider.value * 1.0);
-  gl.uniform1f(program_info.uniform_locations.canvas_h, h_slider.value * 1.0);
+  gl.uniform1f(program_info.uniform_locations.canvas_w, slider_w.value * 1.0);
+  gl.uniform1f(program_info.uniform_locations.canvas_h, slider_h.value * 1.0);
   drawScene();
 }
 
@@ -185,8 +185,8 @@ async function main() {
   setPositionAttribute(gl, buffers, program_info);
 
   //Set defaults
-  gl.uniform1f(program_info.uniform_locations.canvas_w, w_slider.value * 1.0);
-  gl.uniform1f(program_info.uniform_locations.canvas_h, h_slider.value * 1.0);
+  gl.uniform1f(program_info.uniform_locations.canvas_w, slider_w.value * 1.0);
+  gl.uniform1f(program_info.uniform_locations.canvas_h, slider_h.value * 1.0);
   gl.uniform1f(program_info.uniform_locations.real_size, real_size * 1.0);
   drawScene();
 }
