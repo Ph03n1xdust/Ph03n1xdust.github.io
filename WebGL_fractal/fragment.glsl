@@ -1,6 +1,6 @@
 precision highp float;
 
-uniform float maxval;
+uniform float real_size;
 uniform float canvas_w;
 uniform float canvas_h;
 
@@ -30,8 +30,8 @@ void main()
 
     vec2 c = vec2(c_real, c_im);
 
-    float x = (gl_FragCoord.x/canvas_w-0.5)*maxval*2.0;
-    float y = (gl_FragCoord.y/canvas_h-0.5)*maxval*2.0;
+    float x = (gl_FragCoord.x/canvas_w-0.5)*real_size*2.0;
+    float y = (gl_FragCoord.y/canvas_h-0.5)*real_size*2.0;
 
     vec2 currval = vec2(x,y);
     

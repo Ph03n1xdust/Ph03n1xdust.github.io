@@ -1,3 +1,8 @@
+var real_size = 1.5;
+var gl, program_info;
+
+var canvas, slider_w, slider_h;
+
 await main();
 
 //This should be one generic loader
@@ -73,41 +78,6 @@ function initPositionBuffer(gl) {
   return position_buffer;
 }
 
-function drawScene(gl, program_info, buffers) {
-  gl.clearColor(0.0, 0.0, 0.0, 1.0); // Clear to black, fully opaque
-  gl.clearDepth(1.0); // Clear everything
-  gl.enable(gl.DEPTH_TEST); // Enable depth testing
-  gl.depthFunc(gl.LEQUAL); // Near things obscure far things
-
-  // Clear the canvas before we start drawing on it.
-
-  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-  // Tell WebGL how to pull out the positions from the position
-  // buffer into the vertexPosition attribute.
-  setPositionAttribute(gl, buffers, program_info);
-
-  // Tell WebGL to use our program when drawing
-  gl.useProgram(program_info.program);
-
-  //TODO: DO NOT FIND THESE ELEMENTS ALL THE TIME AGAIN, FIND THEM IN MAIN AND SAVE
-  var maxval_slider = document.getElementById("maxval");
-  gl.uniform1f(
-    program_info.uniform_locations.maxval,
-    maxval_slider.value / 10.0
-  );
-  var w_slider = document.getElementById("canvas_w");
-  gl.uniform1f(program_info.uniform_locations.canvas_w, w_slider.value * 1.0);
-  var h_slider = document.getElementById("canvas_h");
-  gl.uniform1f(program_info.uniform_locations.canvas_h, h_slider.value * 1.0);
-
-  {
-    const offset = 0;
-    const vertexCount = 4;
-    gl.drawArrays(gl.TRIANGLE_STRIP, offset, vertexCount);
-  }
-}
-
 // Tell WebGL how to pull out the positions from the position
 // buffer into the vertexPosition attribute.
 function setPositionAttribute(gl, buffers, program_info) {
@@ -129,11 +99,48 @@ function setPositionAttribute(gl, buffers, program_info) {
   gl.enableVertexAttribArray(program_info.attrib_locations.vertexPosition);
 }
 
-async function main() {
-  const canvas = document.querySelector("#glcanvas");
-  const gl = canvas.getContext("webgl");
+function drawScene() {
+  gl.clearColor(0.0, 0.0, 0.0, 1.0); // Clear to black, fully opaque
+  gl.clearDepth(1.0); // Clear everything
+  gl.enable(gl.DEPTH_TEST); // Enable depth testing
+  gl.depthFunc(gl.LEQUAL); // Near things obscure far things
 
-  // Only continue if WebGL is available and working
+  // Clear the canvas before we start drawing on it.
+
+  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+  // Tell WebGL to use our program when drawing
+  gl.useProgram(program_info.program);
+
+  {
+    const offset = 0;
+    const vertexCount = 4;
+    gl.drawArrays(gl.TRIANGLE_STRIP, offset, vertexCount);
+  }
+}
+
+function resize_handler() {
+  canvas.width = slider_w.value;
+  canvas.height = slider_h.value;
+
+  gl.viewport(0, 0, canvas.width, canvas.height);
+
+  gl.uniform1f(program_info.uniform_locations.canvas_w, w_slider.value * 1.0);
+  gl.uniform1f(program_info.uniform_locations.canvas_h, h_slider.value * 1.0);
+  drawScene();
+}
+
+function wheel_handler(wheelevent) {
+  real_size += wheelevent.deltaY;
+  gl.uniform1f(program_info.uniform_locations.real_size, real_size * 1.0);
+
+  drawScene();
+}
+
+async function main() {
+  canvas = document.querySelector("#glcanvas");
+
+  gl = canvas.getContext("webgl");
   if (gl === null) {
     alert(
       "Unable to initialize WebGL. Your browser or machine may not support it."
@@ -141,18 +148,24 @@ async function main() {
     return;
   }
 
+  slider_w = document.getElementById("slider_w");
+  slider_h = document.getElementById("slider_h");
+  slider_w.oninput = resize_handler;
+  slider_h.oninput = resize_handler;
+  canvas.onwheel = wheel_handler;
+
   var vertex_shader, fragment_shader;
   [vertex_shader, fragment_shader] = await getCompiledShaders(gl);
 
   var shader_program = initShaderProgram(gl, vertex_shader, fragment_shader);
 
-  const program_info = {
+  program_info = {
     program: shader_program,
     attrib_locations: {
       vertexPosition: gl.getAttribLocation(shader_program, "aVertexPosition"),
     },
     uniform_locations: {
-      maxval: gl.getUniformLocation(shader_program, "maxval"),
+      real_size: gl.getUniformLocation(shader_program, "real_size"),
       canvas_w: gl.getUniformLocation(shader_program, "canvas_w"),
       canvas_h: gl.getUniformLocation(shader_program, "canvas_h"),
     },
@@ -160,24 +173,9 @@ async function main() {
 
   const buffers = initBuffers(gl);
 
-  var slider = document.getElementById("maxval");
-  slider.oninput = function () {
-    drawScene(gl, program_info, buffers);
-  };
+  // Tell WebGL how to pull out the positions from the position
+  // buffer into the vertexPosition attribute.
+  setPositionAttribute(gl, buffers, program_info);
 
-  var w_slider = document.getElementById("canvas_w");
-  w_slider.oninput = function () {
-    canvas.width = w_slider.value;
-    gl.viewport(0, 0, canvas.width, canvas.height);
-    drawScene(gl, program_info, buffers);
-  };
-
-  var h_slider = document.getElementById("canvas_h");
-  h_slider.oninput = function () {
-    canvas.height = h_slider.value;
-    gl.viewport(0, 0, canvas.width, canvas.height);
-    drawScene(gl, program_info, buffers);
-  };
-
-  drawScene(gl, program_info, buffers);
+  drawScene();
 }
