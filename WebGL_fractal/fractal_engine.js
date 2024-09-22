@@ -1,4 +1,6 @@
 var real_size = 1.5;
+var offset_x = 0,
+  offset_y = 0;
 var gl, program_info;
 
 var canvas, slider_w, slider_h;
@@ -116,6 +118,8 @@ function drawScene() {
   }
 }
 
+//HANDLERS
+
 function resize_handler() {
   canvas.width = slider_w.value;
   canvas.height = slider_h.value;
@@ -129,8 +133,8 @@ function resize_handler() {
 
 function wheel_handler(wheelevent) {
   real_size += wheelevent.deltaY / 700.0;
-  if (real_size < 0.1) {
-    real_size = 0.1;
+  if (real_size < 0.01) {
+    real_size = 0.01;
   }
 
   if (real_size > 3.0) {
@@ -139,6 +143,21 @@ function wheel_handler(wheelevent) {
   gl.uniform1f(program_info.uniform_locations.real_size, real_size * 1.0);
 
   drawScene();
+}
+
+function move_event(move_event) {
+  if (move_event.buttons == 1) {
+    var x_scale = (real_size * 2.0) / slider_w.value;
+    var y_scale = (real_size * 2.0) / slider_h.value;
+
+    offset_x += x_scale * move_event.movementX;
+    offset_y += y_scale * move_event.movementY;
+
+    gl.uniform1f(program_info.uniform_locations.offset_x, offset_x);
+    gl.uniform1f(program_info.uniform_locations.offset_y, offset_y);
+
+    drawScene();
+  }
 }
 
 async function main() {
@@ -172,6 +191,8 @@ async function main() {
       real_size: gl.getUniformLocation(shader_program, "real_size"),
       canvas_w: gl.getUniformLocation(shader_program, "canvas_w"),
       canvas_h: gl.getUniformLocation(shader_program, "canvas_h"),
+      canvas_w: gl.getUniformLocation(shader_program, "offset_x"),
+      canvas_h: gl.getUniformLocation(shader_program, "offset_y"),
     },
   };
 
@@ -188,5 +209,7 @@ async function main() {
   gl.uniform1f(program_info.uniform_locations.canvas_w, slider_w.value * 1.0);
   gl.uniform1f(program_info.uniform_locations.canvas_h, slider_h.value * 1.0);
   gl.uniform1f(program_info.uniform_locations.real_size, real_size * 1.0);
+  gl.uniform1f(program_info.uniform_locations.offset_x, 0.0);
+  gl.uniform1f(program_info.uniform_locations.offset_y, 0.0);
   drawScene();
 }

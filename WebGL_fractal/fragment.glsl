@@ -3,6 +3,8 @@ precision highp float;
 uniform float real_size;
 uniform float canvas_w;
 uniform float canvas_h;
+uniform float offset_x;
+uniform float offset_y;
 
 //From https://www.shadertoy.com/view/XtGGzG
 float saturate( float x ) { return clamp( x, 0.0, 1.0 ); }
@@ -30,8 +32,8 @@ void main()
 
     vec2 c = vec2(c_real, c_im);
 
-    float x = (gl_FragCoord.x/canvas_w-0.5)*real_size*2.0;
-    float y = (gl_FragCoord.y/canvas_h-0.5)*real_size*2.0;
+    float x = (gl_FragCoord.x/canvas_w-0.5)*real_size*2.0 + offset_x;
+    float y = (gl_FragCoord.y/canvas_h-0.5)*real_size*2.0 + offset_y;
 
     vec2 currval = vec2(x,y);
     
