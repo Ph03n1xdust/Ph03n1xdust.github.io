@@ -109,9 +109,6 @@ function drawScene() {
 
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-  // Tell WebGL to use our program when drawing
-  gl.useProgram(program_info.program);
-
   {
     const offset = 0;
     const vertexCount = 4;
@@ -183,6 +180,9 @@ async function main() {
   // Tell WebGL how to pull out the positions from the position
   // buffer into the vertexPosition attribute.
   setPositionAttribute(gl, buffers, program_info);
+
+  // Tell WebGL to use our program when drawing
+  gl.useProgram(program_info.program);
 
   //Set defaults
   gl.uniform1f(program_info.uniform_locations.canvas_w, slider_w.value * 1.0);
