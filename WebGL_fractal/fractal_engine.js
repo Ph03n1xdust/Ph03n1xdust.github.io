@@ -132,7 +132,7 @@ function resize_handler() {
 }
 
 function wheel_handler(wheelevent) {
-  real_size += wheelevent.deltaY / 700.0;
+  real_size -= wheelevent.deltaY / 700.0;
   if (real_size < 0.01) {
     real_size = 0.01;
   }
@@ -145,7 +145,7 @@ function wheel_handler(wheelevent) {
   drawScene();
 }
 
-function move_event(move_event) {
+function move_handler(move_event) {
   if (move_event.buttons == 1) {
     var x_scale = (real_size * 2.0) / slider_w.value;
     var y_scale = (real_size * 2.0) / slider_h.value;
@@ -176,6 +176,7 @@ async function main() {
   slider_w.oninput = resize_handler;
   slider_h.oninput = resize_handler;
   canvas.onwheel = wheel_handler;
+  canvas.onmousemove = move_handler;
 
   var vertex_shader, fragment_shader;
   [vertex_shader, fragment_shader] = await getCompiledShaders(gl);
