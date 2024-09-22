@@ -132,7 +132,7 @@ function resize_handler() {
 }
 
 function wheel_handler(wheelevent) {
-  real_size -= wheelevent.deltaY / 700.0;
+  real_size *= 1 - wheelevent.deltaY / 1000.0;
   if (real_size < 0.01) {
     real_size = 0.01;
   }
@@ -150,7 +150,7 @@ function move_handler(move_event) {
     var x_scale = (real_size * 2.0) / slider_w.value;
     var y_scale = (real_size * 2.0) / slider_h.value;
 
-    offset_x += x_scale * move_event.movementX;
+    offset_x -= x_scale * move_event.movementX;
     offset_y += y_scale * move_event.movementY;
 
     gl.uniform1f(program_info.uniform_locations.offset_x, offset_x);
