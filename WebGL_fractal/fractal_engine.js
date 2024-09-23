@@ -183,6 +183,9 @@ async function main() {
   canvas.onwheel = wheel_handler;
   canvas.onmousemove = move_handler;
 
+  var canvas_c = document.querySelector("canvas_c");
+  canvas_c.onclick = c_change_click;
+
   var vertex_shader, fragment_shader;
   [vertex_shader, fragment_shader] = await getCompiledShaders(gl);
 
