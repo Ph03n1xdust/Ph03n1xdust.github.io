@@ -160,6 +160,11 @@ function move_handler(move_event) {
   }
 }
 
+function c_change_click(clickevent) {
+  alert(clickevent.offset_x);
+  alert(clickevent.offset_y);
+}
+
 async function main() {
   canvas = document.querySelector("#glcanvas");
 
