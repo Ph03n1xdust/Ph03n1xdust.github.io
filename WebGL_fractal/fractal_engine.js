@@ -3,7 +3,7 @@ var offset_x = 0,
   offset_y = 0;
 var gl, program_info;
 
-var canvas, slider_w, slider_h;
+var canvas, slider_w, slider_h, ctx_canvas_c;
 
 await main();
 
@@ -161,8 +161,21 @@ function move_handler(move_event) {
 }
 
 function c_change_click(clickevent) {
-  alert(clickevent.offset_x);
-  alert(clickevent.offset_y);
+  gl.uniform1f(
+    program_info.uniform_locations.c_real,
+    (clickevent.offsetX / 200 - 0.5) * 2.0
+  );
+  gl.uniform1f(
+    program_info.uniform_locations.c_im,
+    (clickevent.offsetY / 200 - 0.5) * 2.0
+  );
+
+  ctx_canvas_c.fillStyle = "white";
+  ctx_canvas_c.fillRect(0, 0, 200, 200);
+  ctx_canvas_c.fillStyle = "red";
+  ctx_canvas_c.fillRect(clickevent.offsetX - 5, clickevent.offsetY - 5, 10, 10);
+
+  drawScene();
 }
 
 async function main() {
@@ -184,6 +197,7 @@ async function main() {
   canvas.onmousemove = move_handler;
 
   var canvas_c = document.getElementById("canvas_c");
+  ctx_canvas_c = canvas_c.getContext("2d");
   canvas_c.onclick = c_change_click;
 
   var vertex_shader, fragment_shader;
