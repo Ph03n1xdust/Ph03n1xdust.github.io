@@ -182,19 +182,19 @@ function c_change_move(move_event) {
   if (move_event.buttons == 1) {
     gl.uniform1f(
       program_info.uniform_locations.c_real,
-      (clickevent.offsetX / 200 - 0.5) * 2.0
+      (move_event.offsetX / 200 - 0.5) * 2.0
     );
     gl.uniform1f(
       program_info.uniform_locations.c_im,
-      (clickevent.offsetY / 200 - 0.5) * 2.0
+      (move_event.offsetY / 200 - 0.5) * 2.0
     );
 
     ctx_canvas_c.fillStyle = "white";
     ctx_canvas_c.fillRect(0, 0, 200, 200);
     ctx_canvas_c.fillStyle = "red";
     ctx_canvas_c.fillRect(
-      clickevent.offsetX - 5,
-      clickevent.offsetY - 5,
+      move_event.offsetX - 5,
+      move_event.offsetY - 5,
       10,
       10
     );
