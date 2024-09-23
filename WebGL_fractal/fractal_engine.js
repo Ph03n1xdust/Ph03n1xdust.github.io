@@ -194,6 +194,8 @@ async function main() {
       canvas_h: gl.getUniformLocation(shader_program, "canvas_h"),
       offset_x: gl.getUniformLocation(shader_program, "offset_x"),
       offset_y: gl.getUniformLocation(shader_program, "offset_y"),
+      c_real: gl.getUniformLocation(shader_program, "c_real"),
+      c_im: gl.getUniformLocation(shader_program, "c_im"),
     },
   };
 
@@ -212,5 +214,8 @@ async function main() {
   gl.uniform1f(program_info.uniform_locations.real_size, real_size * 1.0);
   gl.uniform1f(program_info.uniform_locations.offset_x, 0.0);
   gl.uniform1f(program_info.uniform_locations.offset_y, 0.0);
+  gl.uniform1f(program_info.uniform_locations.c_real, -0.4);
+  gl.uniform1f(program_info.uniform_locations.c_im, 0.6);
+
   drawScene();
 }

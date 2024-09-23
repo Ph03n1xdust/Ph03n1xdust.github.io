@@ -5,6 +5,8 @@ uniform float canvas_w;
 uniform float canvas_h;
 uniform float offset_x;
 uniform float offset_y;
+uniform float c_real;
+uniform float c_im;
 
 //From https://www.shadertoy.com/view/XtGGzG
 float saturate( float x ) { return clamp( x, 0.0, 1.0 ); }
@@ -26,8 +28,6 @@ vec2 complex_mult(vec2 a, vec2 b)
 
 void main()
 {
-    float c_real = -0.4;
-    float c_im = 0.6;
     float thresh = 10.0;
 
     vec2 c = vec2(c_real, c_im);
