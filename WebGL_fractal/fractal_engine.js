@@ -223,8 +223,8 @@ async function main() {
 
   var canvas_c = document.getElementById("canvas_c");
   ctx_canvas_c = canvas_c.getContext("2d");
-  //canvas_c.onclick = c_change_click;
-  canvas_c.onmove = c_change_move;
+  canvas_c.onclick = c_change_click;
+  canvas_c.onmousemove = c_change_move;
 
   var vertex_shader, fragment_shader;
   [vertex_shader, fragment_shader] = await getCompiledShaders(gl);
